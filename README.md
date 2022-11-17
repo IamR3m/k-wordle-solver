@@ -28,3 +28,6 @@ For more info see help
 ```sh
 k-wordle-solver -h
 ```
+
+### Note
+Windows Command Line (cmd.exe) do not support coloring, so you can see weird literals like `←[34m`. Better use PowerShell
