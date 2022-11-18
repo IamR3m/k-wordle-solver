@@ -5,7 +5,7 @@ import kotlin.system.exitProcess
 @Command(
     name = "wordle-solver",
     subcommands = [Solve::class, Load::class],
-    version = ["1.0.0"],
+    version = ["1.0.1"],
     mixinStandardHelpOptions = true
 )
 class Main {

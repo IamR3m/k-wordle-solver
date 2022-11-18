@@ -5,7 +5,7 @@ import picocli.CommandLine.Option
     name = "solve",
     description = ["Solve"],
     sortOptions = false,
-    version = ["1.0.0"],
+    version = ["1.0.1"],
     mixinStandardHelpOptions = true
 )
 class Solve : Runnable {
@@ -63,18 +63,18 @@ class Solve : Runnable {
         wordsLoader.init(lang)
         val matchedWords = wordsLoader.getWords(lang)!!
             .asSequence()
-            .filter { w -> include.all { w.contains(it) } }
-            .filter { w -> exclude.any { w.contains(it) }.not() }
+            .filter { w -> include.isEmpty() || include.all { w.contains(it) } }
+            .filter { w -> exclude.isEmpty() || exclude.any { w.contains(it) }.not() }
             .filter { w -> char1?.let { w[0] == it } ?: true }
             .filter { w -> char2?.let { w[1] == it } ?: true }
             .filter { w -> char3?.let { w[2] == it } ?: true }
             .filter { w -> char4?.let { w[3] == it } ?: true }
             .filter { w -> char5?.let { w[4] == it } ?: true }
-            .filter { w -> not1.any { w[0] == it }.not() }
-            .filter { w -> not2.any { w[1] == it }.not() }
-            .filter { w -> not3.any { w[2] == it }.not() }
-            .filter { w -> not4.any { w[3] == it }.not() }
-            .filter { w -> not5.any { w[4] == it }.not() }
+            .filter { w -> not1.isEmpty() || not1.any { w[0] == it }.not() }
+            .filter { w -> not2.isEmpty() || not2.any { w[1] == it }.not() }
+            .filter { w -> not3.isEmpty() || not3.any { w[2] == it }.not() }
+            .filter { w -> not4.isEmpty() || not4.any { w[3] == it }.not() }
+            .filter { w -> not5.isEmpty() || not5.any { w[4] == it }.not() }
             .toList()
             .shuffled()
         printList(matchedWords)

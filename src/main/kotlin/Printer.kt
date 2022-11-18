@@ -16,7 +16,7 @@ fun printInput(
     println("${COLOR_BLUE}Input: {")
     println("  lang:$COLOR_RESET $lang")
     if (include.isNotEmpty()) println("$COLOR_BLUE  Included chars:$COLOR_RESET $include")
-    if (exclude.isNotEmpty()) println("$COLOR_BLUE  Excluded chars:$COLOR_RESET $include")
+    if (exclude.isNotEmpty()) println("$COLOR_BLUE  Excluded chars:$COLOR_RESET $exclude")
     if (char1 != null) println("$COLOR_BLUE  Char1:$COLOR_RESET $char1")
     if (char2 != null) println("$COLOR_BLUE  Char1:$COLOR_RESET $char2")
     if (char3 != null) println("$COLOR_BLUE  Char1:$COLOR_RESET $char3")
