@@ -17,8 +17,13 @@ class Load : Runnable {
     )
     lateinit var lang: String
 
+    @Option(
+        names = ["-d", "--debug"],
+    )
+    var isDebug: Boolean = false
+
     override fun run() {
-        val wordsLoader = WordsLoader()
+        val wordsLoader = WordsLoader(isDebug)
         wordsLoader.load(lang)
     }
 }

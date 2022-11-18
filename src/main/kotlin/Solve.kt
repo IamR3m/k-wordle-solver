@@ -5,7 +5,7 @@ import picocli.CommandLine.Option
     name = "solve",
     description = ["Solve"],
     sortOptions = false,
-    version = ["1.0.1"],
+    version = ["1.0.2"],
     mixinStandardHelpOptions = true
 )
 class Solve : Runnable {
@@ -17,10 +17,15 @@ class Solve : Runnable {
     )
     lateinit var lang: String
 
-    @Option(names = ["-i", "--include"], split = ",", description = ["Included chars"])
+    @Option(
+        names = ["-d", "--debug"],
+    )
+    var isDebug: Boolean = false
+
+    @Option(names = ["-i", "--include"], split = ",", paramLabel = "char", description = ["Included chars"])
     val include: List<Char> = listOf()
 
-    @Option(names = ["-e", "--exclude"], split = ",", description = ["Excluded chars"])
+    @Option(names = ["-e", "--exclude"], split = ",", paramLabel = "char", description = ["Excluded chars"])
     val exclude: List<Char> = listOf()
 
     @Option(names = ["-c1", "--char1"], description = ["Known char 1"])
@@ -38,19 +43,19 @@ class Solve : Runnable {
     @Option(names = ["-c5", "--char5"], description = ["Known char 5"])
     var char5: Char? = null
 
-    @Option(names = ["-n1", "--not1"], split = ",", description = ["Chars not in 1st position"])
+    @Option(names = ["-n1", "--not1"], split = ",", paramLabel = "char", description = ["Chars not in 1st position"])
     val not1: List<Char> = listOf()
 
-    @Option(names = ["-n2", "--not2"], split = ",", description = ["Chars not in 2nd position"])
+    @Option(names = ["-n2", "--not2"], split = ",", paramLabel = "char", description = ["Chars not in 2nd position"])
     val not2: List<Char> = listOf()
 
-    @Option(names = ["-n3", "--not3"], split = ",", description = ["Chars not in 3rd position"])
+    @Option(names = ["-n3", "--not3"], split = ",", paramLabel = "char", description = ["Chars not in 3rd position"])
     val not3: List<Char> = listOf()
 
-    @Option(names = ["-n4", "--not4"], split = ",", description = ["Chars not in 4th position"])
+    @Option(names = ["-n4", "--not4"], split = ",", paramLabel = "char", description = ["Chars not in 4th position"])
     val not4: List<Char> = listOf()
 
-    @Option(names = ["-n5", "--not5"], split = ",", description = ["Chars not in 5th position"])
+    @Option(names = ["-n5", "--not5"], split = ",", paramLabel = "char", description = ["Chars not in 5th position"])
     val not5: List<Char> = listOf()
 
     override fun run() {
@@ -59,7 +64,7 @@ class Solve : Runnable {
             char1, char2, char3, char4, char5,
             not1, not2, not3, not4, not5
         )
-        val wordsLoader = WordsLoader()
+        val wordsLoader = WordsLoader(isDebug)
         wordsLoader.init(lang)
         val matchedWords = wordsLoader.getWords(lang)!!
             .asSequence()

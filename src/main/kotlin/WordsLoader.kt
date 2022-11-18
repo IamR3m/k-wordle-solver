@@ -14,7 +14,7 @@ import java.util.zip.ZipOutputStream
 import kotlin.math.floor
 
 
-class WordsLoader {
+class WordsLoader(private val isDebug: Boolean = false) {
 
     data class Words(
         val meta: HashMap<String, Long> = hashMapOf(),
@@ -39,6 +39,7 @@ class WordsLoader {
             "en" -> loadEn()
         }
         words.meta[lang] = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
+        if (isDebug) println("words meta: ${words.meta}")
         writeFile()
         println("Done!\n")
     }
@@ -77,6 +78,7 @@ class WordsLoader {
                 }
             }
         }
+        if (isDebug) println("File was written")
     }
 
     private fun loadBy() {
@@ -100,6 +102,7 @@ class WordsLoader {
         println("Receiving words...")
         if (fileExists()) loadFile()
         words.dict["ru"] = parseRuEnDict(requestUrl(RU_URL))
+        if (isDebug) println("words dict ru size: ${words.dict["ru"]?.size}")
     }
 
     private fun loadEn() {
@@ -109,6 +112,7 @@ class WordsLoader {
     }
 
     private fun parseRuEnDict(data: String): List<String> {
+        if (isDebug) println("Start of contents:\n${data.substring(0, 60)}")
         val subData = data.split("nouns'] = ")[1].replace("'", "\"")
         val size = subData.length
         val array = JSONParser().parse(subData.substring(0, size - 3) + "]") as JSONArray
@@ -117,6 +121,7 @@ class WordsLoader {
             val str = array[i] as String
             if (str.length == 5 && str.contains("-").not()) filteredArray.add(str)
         }
+        if (isDebug) println("Parsed dict size: ${filteredArray.size}")
         return filteredArray
     }
 
@@ -124,17 +129,10 @@ class WordsLoader {
         val url = URL(urlString)
         val con = url.openConnection() as HttpURLConnection
         con.requestMethod = "GET"
-
-        val bufferedReader = BufferedReader(InputStreamReader(con.inputStream))
-        var inputLine: String?
-        val content = StringBuffer()
-        while (bufferedReader.readLine().also { inputLine = it } != null) {
-            content.append(inputLine)
-        }
-        bufferedReader.close()
+        if (isDebug) println("Content Type: ${con.contentType}")
+        val str = con.inputStream.readBytes().toString(Charsets.UTF_8)
         con.disconnect()
-        return content.toString()
-
+        return str
     }
 
     private companion object {
