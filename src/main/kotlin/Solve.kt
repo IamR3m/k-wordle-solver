@@ -5,7 +5,7 @@ import picocli.CommandLine.Option
     name = "solve",
     description = ["Solve"],
     sortOptions = false,
-    version = ["1.0.2"],
+    version = ["1.0.3"],
     mixinStandardHelpOptions = true
 )
 class Solve : Runnable {

@@ -5,7 +5,7 @@ import picocli.CommandLine.Option
     name = "load",
     description = ["Load words from web"],
     sortOptions = false,
-    version = ["1.0.0"],
+    version = ["1.0.3"],
     mixinStandardHelpOptions = true
 )
 class Load : Runnable {
